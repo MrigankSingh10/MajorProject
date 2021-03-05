@@ -10,7 +10,7 @@ from PyQt5.QtCore import QTimer,Qt
 
 # import Opencv module
 import cv2
-#import PyAutoGui 
+#import PyAutoGui and UI For the app
 import numpy as np
 import pyautogui
 from ui_main_window import *
