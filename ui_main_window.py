@@ -22,6 +22,11 @@ class Ui_Form(object):
         self.image_label = QtWidgets.QLabel(Form)
         self.image_label.setObjectName("image_label")
         self.verticalLayout.addWidget(self.image_label)
+        self.cb = QtWidgets.QComboBox()
+        self.cb.addItem("ppt")
+        self.cb.addItem("media")
+
+        self.verticalLayout.addWidget(self.cb)
         self.control_bt = QtWidgets.QPushButton(Form)
         self.control_bt.setObjectName("control_bt")
         self.verticalLayout.addWidget(self.control_bt)

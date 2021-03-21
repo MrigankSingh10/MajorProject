@@ -24,7 +24,9 @@ lower_limit=300
 left_limit=270-50
 right_limit=370+25
 
+
 actions={'space':False,'left':False,'down':False,'right':False,'up':False}
+
 
 def pressup():
     if actions.get('up')==False:
@@ -67,6 +69,8 @@ def Neutral():
 
 #App Development
 class MainWindow(QWidget):
+    action_choice="ppt"
+    action_text={'ppt':["","Up","Right","Down","left"],"media":["Play/Pause","Volume Up","Skip Forward","Volume Down","Skip Backward"]}
     # class constructor
     def __init__(self):
         # call QWidget constructor
@@ -81,6 +85,15 @@ class MainWindow(QWidget):
         self.timer.timeout.connect(self.viewCam)
         # set control_bt callback clicked  function
         self.ui.control_bt.clicked.connect(self.controlTimer)
+        self.ui.cb.currentIndexChanged.connect(self.selectionchange)
+    
+    def selectionchange(self,i):
+        
+		
+        self.action_choice=self.ui.cb.currentText()    
+        print("Current index",i,"selection changed ",self.ui.cb.currentText())
+
+
         
     # view camera
     def viewCam(self):
@@ -95,11 +108,13 @@ class MainWindow(QWidget):
         frame = cv2.line(frame,(0,298+45),(640,298+45),(255,255,255),4)
         frame = cv2.line(frame,(218,0),(218,480),(255,255,255),4)
         frame = cv2.line(frame,(368+50,0),(368+50,480),(255,255,255),4)
-        cv2.putText(frame,'Space',(50, 50),font, 1,(0, 255, 255),2, cv2.LINE_4)
-        cv2.putText(frame,'Up',(250, 50),font, 1,(0, 255, 255),2, cv2.LINE_4)
-        cv2.putText(frame,'right',(50, 250),font, 1,(0, 255, 255),2, cv2.LINE_4)
-        cv2.putText(frame,'down',(250, 400),font, 1,(0, 255, 255),2, cv2.LINE_4)
-        cv2.putText(frame,'left',(450, 250),font, 1,(0, 255, 255),2, cv2.LINE_4)
+        
+
+        cv2.putText(frame,self.action_text[self.action_choice][0],(50, 50),font, 0.5,(0, 255, 255),2, cv2.LINE_4)
+        cv2.putText(frame,self.action_text[self.action_choice][1],(250, 50),font, 0.5,(0, 255, 255),2, cv2.LINE_4)
+        cv2.putText(frame,self.action_text[self.action_choice][2],(50, 250),font, 0.5,(0, 255, 255),2, cv2.LINE_4)
+        cv2.putText(frame,self.action_text[self.action_choice][3],(250, 400),font, 0.5,(0, 255, 255),2, cv2.LINE_4)
+        cv2.putText(frame,self.action_text[self.action_choice][4],(450, 250),font, 0.5,(0, 255, 255),2, cv2.LINE_4)
         for c in contours:
             # So that unneccessary objects are not detected 
             area=cv2.contourArea(c)
@@ -146,6 +161,7 @@ class MainWindow(QWidget):
             # release video capture
             self.cap.release()
             # update control_bt text
+            self.ui.image_label.setText("Click here to start the camera")
             self.ui.control_bt.setText("Start")
 
 
